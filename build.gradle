@@ -1,12 +1,13 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "org.asciidoctor.convert" version "1.5.9.2"
 	id 'java'
 }
 
 group = 'com.miu'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+sourceCompatibility = '14'
 
 configurations {
 	compileOnly {
@@ -22,14 +23,31 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.20.2'
+
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.4.RELEASE'
+	testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.4.RELEASE'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+asciidoctor {
+	backends 'html5'
+	sourceDir 'src/test/resources/doc'
+	outputDir 'src/main/resources/doc'
+	outputs.upToDateWhen { false } //force always rebuild
+	dependsOn test
 }

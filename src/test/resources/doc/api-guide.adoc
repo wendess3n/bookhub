@@ -1,0 +1,104 @@
+:doctype: book
+:icons: font
+:toc:
+
+= Bookhub API Documentation
+
+== Change Log
+
+[cols="2,3,5"]
+|===
+|Changed On|Changed By|Change Description
+
+|2021-09-08
+|Wendessen Aberha
+|Initial documentation
+
+|===
+
+== Register new customer
+
+ POST /users
+
+Given valid user details, it registers a new customer account
+
+.Request fields
+[cols="3,2,5"]
+include::{snippets}/register-customer/request-fields.adoc[]
+
+.Sample request
+include::{snippets}/register-customer/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/register-customer/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/register-customer/http-response.adoc[]
+
+== Find user by id
+
+ GET /users/{userId}
+
+Finds a user by its unique ID
+
+.Sample request
+include::{snippets}/find-user-by-id/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-user-by-id/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-user-by-id/http-response.adoc[]
+
+
+== Find user by email address
+
+ GET /users?email={email}
+
+Finds a user by its unique email address
+
+.Sample request
+include::{snippets}/find-user-by-email/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-user-by-email/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-user-by-email/http-response.adoc[]
+
+== Upgrade account to seller
+
+ PUT /users/{userId}/roles/seller
+
+Finds a user by its unique email address
+
+.Sample request
+include::{snippets}/make-account-seller/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/make-account-seller/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/make-account-seller/http-response.adoc[]
+
+== Lock account
+
+ POST /users/{userId}/lock
+
+Locks a user account
+
+.Sample request
+include::{snippets}/lock-account/http-request.adoc[]
+
+.Sample response
+include::{snippets}/lock-account/http-response.adoc[]
+
+== Disable account
+
+ DELETE /users/{userId}
+
+Disables a user account
