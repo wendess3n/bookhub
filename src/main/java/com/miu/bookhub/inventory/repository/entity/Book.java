@@ -15,6 +15,9 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
+    private String isbn;
+
+    @Column(nullable = false)
     private String title;
     private String edition;
     private String publisher;
