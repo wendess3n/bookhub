@@ -29,7 +29,4 @@ public class Order {
     @Column(name = "delivery_status")
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
-
-    @Column(name = "is_checked_out")
-    private Boolean isCheckedOut = false;
 }
