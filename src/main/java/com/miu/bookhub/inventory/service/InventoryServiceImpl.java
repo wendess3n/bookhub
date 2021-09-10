@@ -48,14 +48,14 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Book> searchBooksByTitle(String title, Pageable pageable) {
 
         pageable = pageable == null || pageable.isUnpaged() ? Pageable.ofSize(DEFAULT_BOOK_SEARCH_SIZE) : pageable;
-        return bookRepository.findAllByTitleLike(title, pageable);
+        return bookRepository.findAllByTitleLikeIgnoreCase(title, pageable);
     }
 
     @Override
     public List<Book> searchBooksByAuthor(String author, Pageable pageable) {
 
         pageable = pageable == null || pageable.isUnpaged() ? Pageable.ofSize(DEFAULT_BOOK_SEARCH_SIZE) : pageable;
-        return bookRepository.findAllByAuthorsNameLike(author, pageable);
+        return bookRepository.findAllByAuthorsNameLikeIgnoreCase(author, pageable);
     }
 
     @Override

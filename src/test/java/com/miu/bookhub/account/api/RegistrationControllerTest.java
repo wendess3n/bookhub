@@ -5,7 +5,7 @@ import com.miu.bookhub.account.api.domain.UserRequest;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
-import com.miu.bookhub.account.service.TestConfig;
+import com.miu.bookhub.TestConfig;
 import com.miu.bookhub.global.GlobalConfig;
 import com.miu.bookhub.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;

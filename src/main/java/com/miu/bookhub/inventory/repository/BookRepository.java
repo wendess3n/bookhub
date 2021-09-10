@@ -11,7 +11,7 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
     Optional<Book> findByIsbn(String isbn);
 
-    List<Book> findAllByTitleLike(String title, Pageable pageable);
+    List<Book> findAllByTitleLikeIgnoreCase(String title, Pageable pageable);
 
-    List<Book> findAllByAuthorsNameLike(String name, Pageable pageable);
+    List<Book> findAllByAuthorsNameLikeIgnoreCase(String name, Pageable pageable);
 }

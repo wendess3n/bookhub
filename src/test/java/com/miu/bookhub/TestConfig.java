@@ -1,4 +1,4 @@
-package com.miu.bookhub.account.service;
+package com.miu.bookhub;
 
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
@@ -11,8 +11,8 @@ import java.util.Set;
 @TestConfiguration
 public class TestConfig {
 
-    static final long TEST_USER_ID = 23;
-    static final String TEST_USER_NAME = "abel.adam@email.com";
+    public static final long TEST_USER_ID = 23;
+    public static final String TEST_USER_NAME = "abel.adam@email.com";
 
     @Bean("mockUserDetailsService")
     public UserDetailsService userDetailsService() {

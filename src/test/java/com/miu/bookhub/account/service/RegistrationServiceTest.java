@@ -1,5 +1,6 @@
 package com.miu.bookhub.account.service;
 
+import com.miu.bookhub.TestConfig;
 import com.miu.bookhub.account.exception.UserServiceException;
 import com.miu.bookhub.account.repository.UserRepository;
 import com.miu.bookhub.account.repository.entity.Role;

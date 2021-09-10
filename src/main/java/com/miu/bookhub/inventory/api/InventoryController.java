@@ -26,8 +26,8 @@ public class InventoryController {
         return buildBookItemResponse(bookItem);
     }
 
-    @GetMapping("{/bookItemId}")
-    public  BookItemResponse getBookItemById(@PathVariable Long bookItemId) {
+    @GetMapping("/{bookItemId}")
+    public BookItemResponse getBookItemById(@PathVariable Long bookItemId) {
 
         return inventoryService.getBookItem(bookItemId)
                 .map(this::buildBookItemResponse)
@@ -35,7 +35,7 @@ public class InventoryController {
     }
 
     @PostMapping("/{bookItemId}/stock")
-    public BookItemResponse stockBookItem(@PathVariable Long bookItemId, @RequestBody int quantity) {
+    public BookItemResponse stockBookItem(@PathVariable long bookItemId, @RequestBody int quantity) {
 
         BookItem bookItem = inventoryService.stockBookItem(bookItemId, quantity);
         return buildBookItemResponse(bookItem);

@@ -1,6 +1,7 @@
 package com.miu.bookhub.inventory.api.domain;
 
-import com.miu.bookhub.inventory.repository.entity.Author;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.miu.bookhub.inventory.api.domain.model.Author;
 import com.miu.bookhub.inventory.repository.entity.Format;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class BookResponse {
     private String title;
     private String edition;
     private String publisher;
+
+    @JsonFormat(pattern = "yyyy-MM")
     private LocalDate publishDate;
     private Format format;
     private Integer pageCount;
