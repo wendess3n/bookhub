@@ -4,7 +4,7 @@ import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
 import com.miu.bookhub.global.utils.SecurityUtils;
-import com.miu.bookhub.i18n.DefaultMessageSource;
+import com.miu.bookhub.global.i18n.DefaultMessageSource;
 import com.miu.bookhub.inventory.exception.InventoryExceptionService;
 import com.miu.bookhub.inventory.repository.BookItemRepository;
 import com.miu.bookhub.inventory.repository.BookRepository;

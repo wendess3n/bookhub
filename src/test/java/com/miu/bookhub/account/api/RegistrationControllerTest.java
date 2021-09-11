@@ -7,7 +7,7 @@ import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
 import com.miu.bookhub.TestConfig;
 import com.miu.bookhub.global.GlobalConfig;
-import com.miu.bookhub.security.SecurityConfig;
+import com.miu.bookhub.global.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

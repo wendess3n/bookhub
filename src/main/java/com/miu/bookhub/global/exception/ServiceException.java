@@ -1,4 +1,4 @@
-package com.miu.bookhub.exception;
+package com.miu.bookhub.global.exception;
 
 public class ServiceException extends RuntimeException {
 

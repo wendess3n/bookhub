@@ -1,4 +1,4 @@
-package com.miu.bookhub.i18n;
+package com.miu.bookhub.global.i18n;
 
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
