@@ -1,6 +1,6 @@
 package com.miu.bookhub.account.exception;
 
-import com.miu.bookhub.exception.ServiceException;
+import com.miu.bookhub.global.exception.ServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

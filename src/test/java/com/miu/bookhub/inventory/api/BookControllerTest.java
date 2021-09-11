@@ -6,7 +6,7 @@ import com.miu.bookhub.inventory.repository.entity.Author;
 import com.miu.bookhub.inventory.repository.entity.Book;
 import com.miu.bookhub.inventory.repository.entity.Format;
 import com.miu.bookhub.inventory.service.InventoryService;
-import com.miu.bookhub.security.SecurityConfig;
+import com.miu.bookhub.global.security.SecurityConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

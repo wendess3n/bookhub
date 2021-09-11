@@ -5,7 +5,7 @@ import com.miu.bookhub.account.repository.UserRepository;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.global.utils.SecurityUtils;
-import com.miu.bookhub.i18n.DefaultMessageSource;
+import com.miu.bookhub.global.i18n.DefaultMessageSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

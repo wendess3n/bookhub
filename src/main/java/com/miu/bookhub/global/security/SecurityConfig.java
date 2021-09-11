@@ -1,4 +1,4 @@
-package com.miu.bookhub.security;
+package com.miu.bookhub.global.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/**", "/books/**", "/book-items/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().httpBasic()
                 .and().build();
