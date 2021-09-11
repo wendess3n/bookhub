@@ -1,25 +1,29 @@
 package com.miu.bookhub.inventory.service;
 
 import com.miu.bookhub.inventory.repository.entity.Book;
+import com.miu.bookhub.inventory.repository.entity.BookItem;
 import com.miu.bookhub.inventory.repository.entity.Condition;
 import com.miu.bookhub.inventory.repository.entity.Format;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 public interface InventoryService {
 
-    BookItem saveBookItem(int sellerId, String isbn, Format format, Condition condition, int quantity, double unitPrice);
+    Optional<Book> findBookByIsbn(String isbn);
 
-    BookItem getBookItem(long bookId);
+    Optional<Book> remoteSearchBookByIsbn(String isbn);
 
-    Book searchBookByIsbn(String isbn);
+    List<Book> searchBooksByTitle(String title, Pageable pageable);
 
-    Set<Book> searchBooksByTitle(String title, Pageable pageable);
+    List<Book> searchBooksByAuthor(String author, Pageable pageable);
 
-    Set<Book> searchBooksByAuthor(String author, Pageable pageable);
+    BookItem saveBookItem(long sellerId, String isbn, Format format, Condition condition, int quantity, double unitPrice);
 
-    void stockBookItem(long bookId, int quantity);
+    Optional<BookItem> getBookItem(long bookItemId);
 
-    void deStockBookItem(long bookId, int quantity);
+    BookItem stockBookItem(long bookItemId, int quantity);
+
+    BookItem deStockBookItem(long bookItemId, int quantity);
 }

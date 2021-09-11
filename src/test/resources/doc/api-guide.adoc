@@ -102,3 +102,119 @@ include::{snippets}/lock-account/http-response.adoc[]
  DELETE /users/{userId}
 
 Disables a user account
+
+== Find book by ISBN
+
+ GET /books?isbn={isbn}
+
+Finds books by ISBN
+
+.Sample request
+include::{snippets}/find-book-by-isbn/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-book-by-isbn/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-book-by-isbn/http-response.adoc[]
+
+== Search book by title
+
+ GET /books?title={title}
+
+Searches book by title
+
+.Sample request
+include::{snippets}/search-book-by-title/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/search-book-by-title/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/search-book-by-title/http-response.adoc[]
+
+== Search book by author
+
+ GET /books?author={author}
+
+Searches book by author name
+
+.Sample request
+include::{snippets}/search-book-by-author/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/search-book-by-author/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/search-book-by-author/http-response.adoc[]
+
+== Post book item
+
+ POST /book-items
+
+Posts new book item for sale
+
+.Request fields
+[cols="3,2,5"]
+include::{snippets}/post-book-item/request-fields.adoc[]
+
+.Sample request
+include::{snippets}/post-book-item/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/post-book-item/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/post-book-item/http-response.adoc[]
+
+== Get book item
+
+ GET /book-items
+
+Finds a book item by its id
+
+.Sample request
+include::{snippets}/get-book-item-by-id/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/get-book-item-by-id/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/get-book-item-by-id/http-response.adoc[]
+
+== Stock book item
+
+ POST /book-items/{bookItemId}/stock
+
+Increase book item's stock
+
+.Sample request
+include::{snippets}/stock-book-item/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/stock-book-item/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/stock-book-item/http-response.adoc[]
+
+== DeStock book item
+
+ POST /book-items/{bookItemId}/destock
+
+Decreases book item's stock
+
+.Sample request
+include::{snippets}/deStock-book-item/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/deStock-book-item/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/deStock-book-item/http-response.adoc[]
