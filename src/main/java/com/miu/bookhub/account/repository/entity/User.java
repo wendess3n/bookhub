@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Builder.Default
     private Boolean isActive = true;
 
-    @ElementCollection(targetClass = Role.class)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id")
     )
@@ -55,7 +55,7 @@ public class User implements UserDetails {
     Set<Role> roles = Set.of();
 
     @Column(name = "address")
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     List<Address> addresses;
 
 

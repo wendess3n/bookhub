@@ -21,6 +21,8 @@ public class Author {
 
     @Column(name = "personal_name")
     private String personalName;
+
+    @Column(unique = true)
     private String isni;
 
     @Column(name = "photo_uri")
