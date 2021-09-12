@@ -146,14 +146,14 @@ include::{snippets}/find-address-by-id/http-response.adoc[]
 Finds address of a user
 
 .Sample request
-include::{snippets}/findaddresses/http-request.adoc[]
+include::{snippets}/find-addresses/http-request.adoc[]
 
 .Response fields
 [cols="3,2,5"]
-include::{snippets}/findaddresses/response-fields.adoc[]
+include::{snippets}/find-addresses/response-fields.adoc[]
 
 .Sample response
-include::{snippets}/findaddresses/http-response.adoc[]
+include::{snippets}/find-addresses/http-response.adoc[]
 
 
 == Find book by ISBN
