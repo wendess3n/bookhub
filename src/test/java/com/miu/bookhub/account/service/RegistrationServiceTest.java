@@ -2,6 +2,7 @@ package com.miu.bookhub.account.service;
 
 import com.miu.bookhub.TestConfig;
 import com.miu.bookhub.account.exception.UserServiceException;
+import com.miu.bookhub.account.repository.AddressRepository;
 import com.miu.bookhub.account.repository.UserRepository;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
@@ -31,14 +32,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 public class RegistrationServiceTest {
 
-    @MockBean
-    private UserRepository userRepository;
+    @MockBean private UserRepository userRepository;
+    @MockBean private AddressRepository addressRepository;
     private RegistrationService registrationService;
+
     private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @BeforeEach
     void setup() {
-        registrationService = new RegistrationServiceImpl(userRepository, passwordEncoder);
+        registrationService = new RegistrationServiceImpl(userRepository, passwordEncoder, addressRepository);
     }
 
     @Test

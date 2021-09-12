@@ -1,7 +1,9 @@
 package com.miu.bookhub.account.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.miu.bookhub.account.api.domain.AddressRequest;
 import com.miu.bookhub.account.api.domain.UserRequest;
+import com.miu.bookhub.account.repository.entity.Address;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
@@ -19,14 +21,17 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
@@ -142,6 +147,76 @@ public class RegistrationControllerTest {
                 .andDo(document("disable-account"));
     }
 
+    @WithMockUser
+    @Test
+    void shouldSaveAddress() throws Exception {
+
+        AddressRequest request = AddressRequest.builder()
+                .country("United States")
+                .state("Iowa")
+                .city("Fairfield")
+                .zipCode("52557")
+                .addressLine2("1000 N. 4th St.")
+                .addressLine1("Mr###")
+                .build();
+
+        when(registrationService.saveCustomerAddress(anyLong(), anyString(), anyString(), anyString(), anyString(), anyString(), any()))
+                .thenReturn(getMockedAddress());
+
+        mockMvc.perform(post("/users/{userId}/addresses", 1)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andDo(document("save-address",
+                        requestFields(
+                                fieldWithPath("country").description("Country of the address"),
+                                fieldWithPath("state").description("State of the address"),
+                                fieldWithPath("city").description("City of the address"),
+                                fieldWithPath("zipCode").description("Zip code of the address"),
+                                fieldWithPath("addressLine1").description("Address line1 of the address"),
+                                fieldWithPath("addressLine2").description("Address line2 of the address")
+                        ),
+                        getAddressResponseFields()
+                ));
+    }
+
+    @WithMockUser
+    @Test
+    void shouldGetAddressById() throws Exception {
+
+        when(registrationService.findAddressById(anyLong(), anyLong()))
+                .thenReturn(Optional.ofNullable(getMockedAddress()));
+
+        mockMvc.perform(get("/users/{userId}/addresses/{addressId}", 1, 1).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("find-address-by-id",
+                        getAddressResponseFields()
+                ));
+    }
+
+    @WithUserDetails(userDetailsServiceBeanName = "mockUserDetailsService")
+    @Test
+    void shouldGetAddressesByCustomer() throws Exception {
+
+        when(registrationService.findAddresses(anyLong()))
+                .thenReturn(List.of(getMockedAddress()));
+
+        mockMvc.perform(get("/users/{userId}/addresses", 1).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("find-addresses",
+                        responseFields(
+                                fieldWithPath("[].addressId").description("Unique Id to reference this address"),
+                                fieldWithPath("[].country").description("Country of the address"),
+                                fieldWithPath("[].state").description("State of the address"),
+                                fieldWithPath("[].city").description("City of the address"),
+                                fieldWithPath("[].zipCode").description("Zip code of the address"),
+                                fieldWithPath("[].addressLine1").description("Address line1 of the address"),
+                                fieldWithPath("[].addressLine2").description("Address line2 of the address")
+                        )
+                ));
+    }
+
     private User buildMockUser() {
         return User.builder()
                 .id(1L)
@@ -152,6 +227,30 @@ public class RegistrationControllerTest {
                 .isLocked(false)
                 .roles(Set.of(Role.CUSTOMER))
                 .build();
+    }
+
+    private Address getMockedAddress() {
+        return Address.builder()
+                .id(1L)
+                .country("United States")
+                .state("Iowa")
+                .city("Fairfield")
+                .zipCode("52557")
+                .addressLine2("1000 N. 4th St.")
+                .addressLine1("Mr###")
+                .build();
+    }
+
+    private ResponseFieldsSnippet getAddressResponseFields() {
+        return responseFields(
+                fieldWithPath("addressId").description("Unique Id to reference this address"),
+                fieldWithPath("country").description("Country of the address"),
+                fieldWithPath("state").description("State of the address"),
+                fieldWithPath("city").description("City of the address"),
+                fieldWithPath("zipCode").description("Zip code of the address"),
+                fieldWithPath("addressLine1").description("Address line1 of the address"),
+                fieldWithPath("addressLine2").description("Address line2 of the address")
+        );
     }
 
     private ResponseFieldsSnippet getUserResponseFields() {

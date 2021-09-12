@@ -23,7 +23,7 @@ public class OrderController {
     @PostMapping
     public OrderResponse orderBook(@RequestBody OrderRequest request) {
 
-        OrderResult order = orderService.orderBook(SecurityUtils.getCurrentUser().getId(),
+        OrderResult order = orderService.orderBook(SecurityUtils.getCurrentUserId(),
                 request.getOrderItems(), request.getShippingAddressId(), request.getRemarks());
 
         return buildOrderResponse(order);

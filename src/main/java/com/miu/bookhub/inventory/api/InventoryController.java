@@ -20,7 +20,7 @@ public class InventoryController {
     @PostMapping
     public BookItemResponse postBookItem(@RequestBody BookItemRequest request) {
 
-        BookItem bookItem = inventoryService.saveBookItem(SecurityUtils.getCurrentUser().getId(),
+        BookItem bookItem = inventoryService.saveBookItem(SecurityUtils.getCurrentUserId(),
                 request.getIsbn(), request.getFormat(), request.getCondition(), request.getQuantity(), request.getUnitPrice());
 
         return buildBookItemResponse(bookItem);

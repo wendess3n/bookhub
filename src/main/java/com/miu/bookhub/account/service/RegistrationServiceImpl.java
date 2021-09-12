@@ -1,7 +1,9 @@
 package com.miu.bookhub.account.service;
 
 import com.miu.bookhub.account.exception.UserServiceException;
+import com.miu.bookhub.account.repository.AddressRepository;
 import com.miu.bookhub.account.repository.UserRepository;
+import com.miu.bookhub.account.repository.entity.Address;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.global.utils.SecurityUtils;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -28,6 +31,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
     @Override
     public User registerCustomer(String firstName, String lastName, String emailAddress, String password) {
@@ -53,6 +57,45 @@ public class RegistrationServiceImpl implements RegistrationService {
             log.error("Failed to register customer", ex);
             throw new UserServiceException(ex.getMessage());
         }
+    }
+
+    @Override
+    public Address saveCustomerAddress(long customerId, String country, String state, String city, String zipCode, String addressLine1, String addressLine2) {
+
+        User customer = userRepository.findById(customerId)
+                .orElseThrow(() -> new UserServiceException(messages.getMessage("user.id.invalid")));
+
+        if (!validateAddress(country, state, city, zipCode, addressLine1, addressLine2)) {
+            throw new UserServiceException(messages.getMessage("user.address.invalid"));
+        }
+
+        Address address = Address.builder()
+                .user(customer)
+                .country(country)
+                .state(state)
+                .city(city)
+                .zipCode(zipCode)
+                .addressLine1(addressLine1)
+                .addressLine2(addressLine2)
+                .build();
+
+        return addressRepository.save(address);
+    }
+
+    @Override
+    public Optional<Address> findAddressById(long customerId, long addressId) {
+
+        Optional<Address> address = addressRepository.findById(addressId);
+        if (address.isPresent()) SecurityUtils.validateAuthorizationOnResource(customerId);
+        return address;
+    }
+
+    @Override
+    public List<Address> findAddresses(long customerId) {
+
+        return userRepository.findById(customerId)
+                .map(addressRepository::findAddressesByUser)
+                .orElseThrow(() -> new UserServiceException(messages.getMessage("user.id.invalid")));
     }
 
     @Override
@@ -152,5 +195,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (StringUtils.isBlank(password) || password.length() < 5) {
             throw new UserServiceException(messages.getMessage("user.password.weak"));
         }
+    }
+
+    //TODO
+    private boolean validateAddress(String country, String state, String city, String zipCode, String addressLine1, String addressLine2) {
+        return true;
     }
 }
