@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/**", "/books/**", "/book-items/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/**", "/books/**", "/book-items/**", "/actuator/health/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().httpBasic()
                 .and().build();

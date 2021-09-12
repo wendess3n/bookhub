@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+
+  bookhub:
+    container_name: bookhub
+    build: .
+    image: bookhub:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/bookhub
+    ports:
+      - "9000:9000"
+    networks:
+      - bookhubnet
+    depends_on:
+      - database
+
+  database:
+    container_name: postgresdb
+    image: "postgres:12.8-alpine"
+    environment:
+      - POSTGRES_DB=bookhub
+      - POSTGRES_USER=bookhub
+      - POSTGRES_PASSWORD=bookhub
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - bookhubnet
+
+networks:
+  bookhubnet:
+    driver: bridge
+
+volumes:
+  database-data:
