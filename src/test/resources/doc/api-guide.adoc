@@ -103,6 +103,59 @@ include::{snippets}/lock-account/http-response.adoc[]
 
 Disables a user account
 
+== Add address
+
+ POST /users/{userId}/addresses
+
+Save address
+
+.Request fields
+[cols="3,2,5"]
+include::{snippets}/save-address/request-fields.adoc[]
+
+.Sample request
+include::{snippets}/save-address/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/save-address/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/save-address/http-response.adoc[]
+
+== Find address by id
+
+ GET /users/{userId}/addresses/{addressId}
+
+Finds address by id
+
+.Sample request
+include::{snippets}/find-address-by-id/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-address-by-id/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-address-by-id/http-response.adoc[]
+
+== Find addresses of a user
+
+ GET /users/{userId}/addresses
+
+Finds address of a user
+
+.Sample request
+include::{snippets}/findaddresses/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/findaddresses/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/findaddresses/http-response.adoc[]
+
+
 == Find book by ISBN
 
  GET /books?isbn={isbn}
@@ -283,3 +336,4 @@ include::{snippets}/find-orders/response-fields.adoc[]
 
 .Sample response
 include::{snippets}/find-orders/http-response.adoc[]
+

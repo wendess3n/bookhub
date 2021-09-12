@@ -22,6 +22,13 @@ public final class SecurityUtils {
                 .orElse(null);
     }
 
+    public static Long getCurrentUserId() {
+
+        return Optional.ofNullable(getCurrentUser())
+                .map(User::getId)
+                .orElse(null);
+    }
+
     public static void validateAuthorizationOnResource(long userId) {
 
         User actor = SecurityUtils.getCurrentUser();
