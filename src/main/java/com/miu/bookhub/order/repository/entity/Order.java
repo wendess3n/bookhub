@@ -17,6 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Data
+@Table(name = "`order`")
 public class Order {
 
     @Id
