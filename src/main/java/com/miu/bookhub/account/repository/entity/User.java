@@ -38,9 +38,11 @@ public class User implements UserDetails {
     private String credential;
 
     @Column(name = "is_locked")
+    @Builder.Default
     private Boolean isLocked = false;
 
     @Column(name = "is_active")
+    @Builder.Default
     private Boolean isActive = true;
 
     @ElementCollection(targetClass = Role.class)
@@ -49,6 +51,7 @@ public class User implements UserDetails {
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
+    @Builder.Default
     Set<Role> roles = Set.of();
 
     @Column(name = "address")

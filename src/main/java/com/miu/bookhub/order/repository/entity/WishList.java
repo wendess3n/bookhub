@@ -2,10 +2,16 @@ package com.miu.bookhub.order.repository.entity;
 
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.inventory.repository.entity.Book;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "wish_list")
