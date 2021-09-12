@@ -87,14 +87,14 @@ public class InventoryServiceTest {
         String title = "A Game of";
 
         Book book = getMockedBook();
-        when(bookRepository.findAllByTitleLikeIgnoreCase(contains(title), any()))
+        when(bookRepository.findAllByTitleContainingIgnoreCase(contains(title), any()))
                 .thenReturn(List.of(book));
 
         List<Book> books = inventoryService.searchBooksByTitle(title, Pageable.unpaged());
 
         var argumentCaptor = ArgumentCaptor.forClass(Pageable.class);
 
-        verify(bookRepository).findAllByTitleLikeIgnoreCase(anyString(), argumentCaptor.capture());
+        verify(bookRepository).findAllByTitleContainingIgnoreCase(anyString(), argumentCaptor.capture());
 
         assertThat(books)
                 .as("Expected to find at least one book with title %s", book.getTitle())
@@ -113,14 +113,14 @@ public class InventoryServiceTest {
         String author = "R.R. Martin";
         Book book = getMockedBook();
 
-        when(bookRepository.findAllByAuthorsNameLikeIgnoreCase(contains(author), any()))
+        when(bookRepository.findAllByAuthorsNameContainingIgnoreCase(contains(author), any()))
                 .thenReturn(List.of(book));
 
         List<Book> books = inventoryService.searchBooksByAuthor(author, Pageable.unpaged());
 
         var argumentCaptor = ArgumentCaptor.forClass(Pageable.class);
 
-        verify(bookRepository).findAllByAuthorsNameLikeIgnoreCase(anyString(), argumentCaptor.capture());
+        verify(bookRepository).findAllByAuthorsNameContainingIgnoreCase(anyString(), argumentCaptor.capture());
 
         String authorName = book.getAuthors().get(0).getName();
         assertThat(books)
