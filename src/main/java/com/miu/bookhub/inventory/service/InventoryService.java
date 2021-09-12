@@ -13,6 +13,8 @@ public interface InventoryService {
 
     Optional<Book> findBookByIsbn(String isbn);
 
+    Optional<Book> findBookById(long id);
+
     Optional<Book> remoteSearchBookByIsbn(String isbn);
 
     List<Book> searchBooksByTitle(String title, Pageable pageable);
@@ -26,4 +28,8 @@ public interface InventoryService {
     BookItem stockBookItem(long bookItemId, int quantity);
 
     BookItem deStockBookItem(long bookItemId, int quantity);
+
+    BookItem holdBookItem(long bookItemId, int quantity);
+
+    BookItem unHoldBookItem(long bookItemId, int quantity);
 }

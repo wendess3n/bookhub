@@ -218,3 +218,68 @@ include::{snippets}/deStock-book-item/response-fields.adoc[]
 
 .Sample response
 include::{snippets}/deStock-book-item/http-response.adoc[]
+
+== Order Book
+
+ POST /orders
+
+Order books
+
+.Request fields
+[cols="3,2,5"]
+include::{snippets}/order-book/request-fields.adoc[]
+
+.Sample request
+include::{snippets}/order-book/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/order-book/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/order-book/http-response.adoc[]
+
+
+== Cancel order
+
+ POST /orders/{referenceId}/cancel
+
+Cancels order
+
+.Sample request
+include::{snippets}/cancel-order/http-request.adoc[]
+
+.Sample response
+include::{snippets}/cancel-order/http-response.adoc[]
+
+== Find order by reference
+
+ GET /orders/{referenceId}
+
+Order books
+
+.Sample request
+include::{snippets}/find-order-by-reference-id/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-order-by-reference-id/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-order-by-reference-id/http-response.adoc[]
+
+== Find orders history
+
+ GET /orders/{referenceId}
+
+Finds customer's order history
+
+.Sample request
+include::{snippets}/find-orders/http-request.adoc[]
+
+.Response fields
+[cols="3,2,5"]
+include::{snippets}/find-orders/response-fields.adoc[]
+
+.Sample response
+include::{snippets}/find-orders/http-response.adoc[]

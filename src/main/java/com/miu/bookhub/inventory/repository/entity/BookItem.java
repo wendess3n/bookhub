@@ -32,6 +32,10 @@ public class BookItem {
     private Condition condition;
     private Integer quantity;
 
+    @Builder.Default
+    @Column(name = "held_quantity")
+    private Integer heldQuantity = 0;
+
     @Column(name = "unit_price")
     private Double unitPrice;
 }

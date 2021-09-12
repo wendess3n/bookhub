@@ -1,10 +1,9 @@
 package com.miu.bookhub.inventory.service;
 
-import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
-import com.miu.bookhub.global.utils.SecurityUtils;
 import com.miu.bookhub.global.i18n.DefaultMessageSource;
+import com.miu.bookhub.global.utils.SecurityUtils;
 import com.miu.bookhub.inventory.exception.InventoryExceptionService;
 import com.miu.bookhub.inventory.repository.BookItemRepository;
 import com.miu.bookhub.inventory.repository.BookRepository;
@@ -16,8 +15,8 @@ import com.miu.bookhub.inventory.service.integration.BookSearchIntegrationServic
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +36,11 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Optional<Book> findBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
+    }
+
+    @Override
+    public Optional<Book> findBookById(long id) {
+        return bookRepository.findById(id);
     }
 
     @Override
@@ -111,7 +115,7 @@ public class InventoryServiceImpl implements InventoryService {
         return bookItemRepository.findById(bookItemId)
                 .map(bookItem -> {
 
-                    validateAuthorizationOnResource(bookItem.getSeller().getId());
+                    SecurityUtils.validateAuthorizationOnResource(bookItem.getSeller().getId());
 
                     bookItem.setQuantity(bookItem.getQuantity() + quantity);
                     return bookItemRepository.save(bookItem);
@@ -125,7 +129,7 @@ public class InventoryServiceImpl implements InventoryService {
         return bookItemRepository.findById(bookItemId)
                 .map(bookItem -> {
 
-                    validateAuthorizationOnResource(bookItem.getSeller().getId());
+                    SecurityUtils.validateAuthorizationOnResource(bookItem.getSeller().getId());
 
                     bookItem.setQuantity(Math.max(0, bookItem.getQuantity() - quantity));
                     return bookItemRepository.save(bookItem);
@@ -133,12 +137,33 @@ public class InventoryServiceImpl implements InventoryService {
                 .orElseThrow(() -> new InventoryExceptionService(messages.getMessage("book.bookItemId.invalid")));
     }
 
-    private void validateAuthorizationOnResource(long userId) {
+    @Override
+    public BookItem holdBookItem(long bookItemId, int quantity) {
 
-        User actor = SecurityUtils.getCurrentUser();
+        BookItem bookItem = bookItemRepository.findById(bookItemId).orElse(null);
+        if (bookItem == null || bookItem.getQuantity() < quantity) {
+            throw new InventoryExceptionService(messages.getMessage("bookItem.stock.low"));
+        }
 
-        if (actor == null || (!actor.getId().equals(userId) && !actor.getRoles().contains(Role.ADMIN)))
-            throw new AccessDeniedException(messages.getMessage("access.denied"));
+        bookItem.setQuantity(bookItem.getQuantity() - quantity);
+        bookItem.setHeldQuantity(bookItem.getHeldQuantity() + quantity);
+
+        return bookItemRepository.save(bookItem);
+    }
+
+    @Transactional
+    @Override
+    public BookItem unHoldBookItem(long bookItemId, int quantity) {
+
+        BookItem bookItem = bookItemRepository.findById(bookItemId).orElse(null);
+        if (bookItem == null || bookItem.getHeldQuantity() < quantity) {
+            throw new InventoryExceptionService(messages.getMessage("bookItem.heldStock.low"));
+        }
+
+        bookItem.setQuantity(bookItem.getQuantity() + quantity);
+        bookItem.setHeldQuantity(bookItem.getHeldQuantity() - quantity);
+
+        return bookItemRepository.save(bookItem);
     }
 
     // Formula borrowed from the internet

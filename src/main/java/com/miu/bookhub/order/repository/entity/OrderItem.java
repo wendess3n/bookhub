@@ -1,10 +1,16 @@
 package com.miu.bookhub.order.repository.entity;
 
+import com.miu.bookhub.inventory.repository.entity.BookItem;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
 @Entity
 @Table(name = "order_item")
@@ -19,6 +25,7 @@ public class OrderItem {
     private Order order;
     private int quantity;
 
-    @Column(name = "order_date", nullable = false)
-    private LocalDateTime orderDate = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "book_item_id", nullable = false)
+    private BookItem bookItem;
 }
