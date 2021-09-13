@@ -36,6 +36,9 @@ public class Book {
 
     private Double weight;
 
+    @Column(name = "cover_uri")
+    private String coverUri;
+
     @Enumerated(EnumType.STRING)
     private Format format;
 

@@ -4,6 +4,7 @@ import com.miu.bookhub.TestConfig;
 import com.miu.bookhub.account.repository.entity.Role;
 import com.miu.bookhub.account.repository.entity.User;
 import com.miu.bookhub.account.service.RegistrationService;
+import com.miu.bookhub.inventory.repository.AuthorRepository;
 import com.miu.bookhub.inventory.repository.BookItemRepository;
 import com.miu.bookhub.inventory.repository.BookRepository;
 import com.miu.bookhub.inventory.repository.entity.*;
@@ -38,6 +39,7 @@ public class InventoryServiceTest {
     private static final String ISNI = "0000000077784510";
 
     @MockBean private BookRepository bookRepository;
+    @MockBean private AuthorRepository authorRepository;
     @MockBean private BookItemRepository bookItemRepository;
     @MockBean private RegistrationService registrationService;
     @MockBean private BookSearchIntegrationService bookSearchIntegrationService;
@@ -47,7 +49,7 @@ public class InventoryServiceTest {
     @BeforeEach
     void setup () {
 
-        inventoryService = new InventoryServiceImpl(bookRepository,
+        inventoryService = new InventoryServiceImpl(bookRepository, authorRepository,
                 bookItemRepository, registrationService, bookSearchIntegrationService);
     }
 
@@ -162,7 +164,7 @@ public class InventoryServiceTest {
         int quantity = 2;
         double unitPrice = 35.0;
 
-        BookItem savedBookItem = inventoryService.saveBookItem(TestConfig.TEST_USER_ID, ISBN, format, condition, quantity, unitPrice);
+        BookItem savedBookItem = inventoryService.saveBookItem(TestConfig.TEST_USER_ID, ISBN, condition, quantity, unitPrice);
 
         assertThat(savedBookItem.getQuantity())
                 .as("Expected item quantity to be %d", prevQt+ quantity)

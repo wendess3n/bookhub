@@ -22,6 +22,7 @@ public class BookResponse {
     private String title;
     private String edition;
     private String publisher;
+    private String coverUri;
 
     @JsonFormat(pattern = "yyyy-MM")
     private LocalDate publishDate;

@@ -21,7 +21,7 @@ public class InventoryController {
     public BookItemResponse postBookItem(@RequestBody BookItemRequest request) {
 
         BookItem bookItem = inventoryService.saveBookItem(SecurityUtils.getCurrentUserId(),
-                request.getIsbn(), request.getFormat(), request.getCondition(), request.getQuantity(), request.getUnitPrice());
+                request.getIsbn(), request.getCondition(), request.getQuantity(), request.getUnitPrice());
 
         return buildBookItemResponse(bookItem);
     }

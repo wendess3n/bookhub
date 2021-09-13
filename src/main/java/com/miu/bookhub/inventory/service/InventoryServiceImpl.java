@@ -5,14 +5,16 @@ import com.miu.bookhub.account.service.RegistrationService;
 import com.miu.bookhub.global.i18n.DefaultMessageSource;
 import com.miu.bookhub.global.utils.SecurityUtils;
 import com.miu.bookhub.inventory.exception.InventoryExceptionService;
+import com.miu.bookhub.inventory.repository.AuthorRepository;
 import com.miu.bookhub.inventory.repository.BookItemRepository;
 import com.miu.bookhub.inventory.repository.BookRepository;
+import com.miu.bookhub.inventory.repository.entity.Author;
 import com.miu.bookhub.inventory.repository.entity.Book;
 import com.miu.bookhub.inventory.repository.entity.BookItem;
 import com.miu.bookhub.inventory.repository.entity.Condition;
-import com.miu.bookhub.inventory.repository.entity.Format;
 import com.miu.bookhub.inventory.service.integration.BookSearchIntegrationService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class InventoryServiceImpl implements InventoryService {
     private final int DEFAULT_BOOK_SEARCH_SIZE = 50;
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
     private final BookItemRepository bookItemRepository;
     private final RegistrationService registrationService;
     private final BookSearchIntegrationService bookSearchIntegrationService;
@@ -63,7 +66,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public BookItem saveBookItem(long sellerId, String isbn, Format format, Condition condition, int quantity, double unitPrice) {
+    public BookItem saveBookItem(long sellerId, String isbn, Condition condition, int quantity, double unitPrice) {
 
         if (!isIsbnValid(isbn)) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
 
@@ -77,14 +80,19 @@ public class InventoryServiceImpl implements InventoryService {
         if (book.isEmpty()) { // If not found from local cache, query from remote external store
 
             book = remoteSearchBookByIsbn(isbn);
+            if (book.isPresent()) {
 
-            if (book.isEmpty()) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
+                Book bk = book.get();
+                if (bk.getAuthors() != null && !bk.getAuthors().isEmpty()) {
+                    List<Author> authors = IterableUtils.toList(authorRepository.saveAll(bk.getAuthors()));
+                    bk.setAuthors(authors);
+                }
 
-            Book bk = book.get();
-            bk.setFormat(bk.getFormat() != null ? bk.getFormat() : format);
-
-            book = Optional.of(bookRepository.save(bk));
+                bookRepository.save(bk);
+            }
         }
+
+        if (book.isEmpty()) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
 
         Optional<BookItem> bookItem = bookItemRepository.findByBookAndConditionAndSeller(book.get(), condition, seller);
 
