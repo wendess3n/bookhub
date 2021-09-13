@@ -74,13 +74,12 @@ public class InventoryControllerTest {
 
         BookItemRequest request = BookItemRequest.builder()
                 .isbn(ISBN)
-                .format(Format.MASS_MARKET_PAPER_BACK)
                 .condition(Condition.LIKE_NEW)
                 .quantity(1)
                 .unitPrice(35.0)
                 .build();
 
-        when(inventoryService.saveBookItem(anyLong(), anyString(), any(), any(), anyInt(), anyDouble()))
+        when(inventoryService.saveBookItem(anyLong(), anyString(), any(), anyInt(), anyDouble()))
                         .thenReturn(getMockedBookItem());
 
         mockMvc.perform(post("/book-items")
@@ -91,7 +90,6 @@ public class InventoryControllerTest {
                 .andDo(document("post-book-item",
                         requestFields(
                                 fieldWithPath("isbn").description("International Standard Book Number"),
-                                fieldWithPath("format").description("Book format. Possible values are [" + StringUtils.join(Format.values(), ", ") + "]"),
                                 fieldWithPath("condition").description("Condition of the book. Possible values are [" + StringUtils.join(Condition.values(), ", ") + "]"),
                                 fieldWithPath("quantity").description("Quantity of the book item to post"),
                                 fieldWithPath("unitPrice").description("Price of the single item")

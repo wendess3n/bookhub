@@ -10,7 +10,6 @@ import com.miu.bookhub.inventory.repository.BookRepository;
 import com.miu.bookhub.inventory.repository.entity.Book;
 import com.miu.bookhub.inventory.repository.entity.BookItem;
 import com.miu.bookhub.inventory.repository.entity.Condition;
-import com.miu.bookhub.inventory.repository.entity.Format;
 import com.miu.bookhub.inventory.service.integration.BookSearchIntegrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -45,7 +44,17 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Optional<Book> remoteSearchBookByIsbn(String isbn) {
-        return bookSearchIntegrationService.searchBookByIsbn(isbn);
+
+        Optional<Book> book = bookSearchIntegrationService.searchBookByIsbn(isbn);
+
+        try { // this axillary block should not affect the main process; hence the try-catch
+
+            if (book.isPresent() && bookRepository.findByIsbn(isbn).isEmpty()) {
+                bookRepository.save(book.get());
+            }
+        } catch (Exception ignore) {}
+
+        return book;
     }
 
     @Override
@@ -63,7 +72,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public BookItem saveBookItem(long sellerId, String isbn, Format format, Condition condition, int quantity, double unitPrice) {
+    public BookItem saveBookItem(long sellerId, String isbn, Condition condition, int quantity, double unitPrice) {
 
         if (!isIsbnValid(isbn)) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
 
@@ -72,19 +81,10 @@ public class InventoryServiceImpl implements InventoryService {
         User seller = registrationService.findUserById(sellerId)
                 .orElseThrow(() -> new InventoryExceptionService(messages.getMessage("user.id.invalid")));
 
-        Optional<Book> book = findBookByIsbn(isbn);
+        Optional<Book> book = findBookByIsbn(isbn) // If not found from local cache, query from remote external store
+                .or(() -> remoteSearchBookByIsbn(isbn));
 
-        if (book.isEmpty()) { // If not found from local cache, query from remote external store
-
-            book = remoteSearchBookByIsbn(isbn);
-
-            if (book.isEmpty()) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
-
-            Book bk = book.get();
-            bk.setFormat(bk.getFormat() != null ? bk.getFormat() : format);
-
-            book = Optional.of(bookRepository.save(bk));
-        }
+        if (book.isEmpty()) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
 
         Optional<BookItem> bookItem = bookItemRepository.findByBookAndConditionAndSeller(book.get(), condition, seller);
 

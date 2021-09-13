@@ -158,6 +158,7 @@ public class BookControllerTest {
                 .weight(0.93)
                 .format(Format.MASS_MARKET_PAPER_BACK)
                 .authors(List.of(author))
+                .coverUri("https://covers.openlibrary.org/b/id/11299207-L.jpg")
                 .build();
     }
 
@@ -170,6 +171,7 @@ public class BookControllerTest {
                 fieldWithPath("edition").description("Edition of the book"),
                 fieldWithPath("publisher").description("Name of the book publisher"),
                 fieldWithPath("publishDate").description("Year and month of the publication date"),
+                fieldWithPath("coverUri").description("Uri for the book cover"),
                 fieldWithPath("format").description("Book format. Possible values are " + StringUtils.join(Format.values(), ", ")),
                 fieldWithPath("pageCount").description("No of pages in the book in the given format"),
                 fieldWithPath("weight").description("Weight of the book in pounds"),
@@ -188,6 +190,7 @@ public class BookControllerTest {
                 fieldWithPath("[].edition").description("Edition of the book"),
                 fieldWithPath("[].publisher").description("Name of the book publisher"),
                 fieldWithPath("[].publishDate").description("Year and month of the publication date"),
+                fieldWithPath("[]coverUri").description("Uri for the book cover"),
                 fieldWithPath("[].format").description("Book format. Possible values are " + StringUtils.join(Format.values(), ", ")),
                 fieldWithPath("[].pageCount").description("No of pages in the book in the given format"),
                 fieldWithPath("[].weight").description("Weight of the book in pounds"),

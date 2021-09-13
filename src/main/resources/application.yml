@@ -24,3 +24,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+bookhub:
+  integration:
+    open-lib:
+      base-uri: https://openlibrary.org/
+      isbn-path: /isbn/
+      authors-path: /authors/

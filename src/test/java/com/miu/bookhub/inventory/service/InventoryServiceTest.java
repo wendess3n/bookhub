@@ -162,7 +162,7 @@ public class InventoryServiceTest {
         int quantity = 2;
         double unitPrice = 35.0;
 
-        BookItem savedBookItem = inventoryService.saveBookItem(TestConfig.TEST_USER_ID, ISBN, format, condition, quantity, unitPrice);
+        BookItem savedBookItem = inventoryService.saveBookItem(TestConfig.TEST_USER_ID, ISBN, condition, quantity, unitPrice);
 
         assertThat(savedBookItem.getQuantity())
                 .as("Expected item quantity to be %d", prevQt+ quantity)
