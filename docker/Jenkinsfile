@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Run image') {
             steps {
-                sh './gradlew docker run'
+                sh './gradlew dockerRun'
             }
         }
     }
