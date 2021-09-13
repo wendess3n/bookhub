@@ -4,14 +4,14 @@ pipeline {
         pollSCM 'H/15 * * * *'
     }
     stages {
-        stage('Build') {
-            steps {
-                sh './gradlew assemble'
-            }
-        }
-         stage('Test') {
+        stage('Test') {
             steps {
                 sh './gradlew test'
+            }
+        }
+         stage('Build') {
+            steps {
+                sh './gradlew build'
                 sh 'cp build/libs/book-hub.jar docker/'
             }
         }
