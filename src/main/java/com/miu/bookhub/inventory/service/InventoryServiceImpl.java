@@ -5,13 +5,16 @@ import com.miu.bookhub.account.service.RegistrationService;
 import com.miu.bookhub.global.i18n.DefaultMessageSource;
 import com.miu.bookhub.global.utils.SecurityUtils;
 import com.miu.bookhub.inventory.exception.InventoryExceptionService;
+import com.miu.bookhub.inventory.repository.AuthorRepository;
 import com.miu.bookhub.inventory.repository.BookItemRepository;
 import com.miu.bookhub.inventory.repository.BookRepository;
+import com.miu.bookhub.inventory.repository.entity.Author;
 import com.miu.bookhub.inventory.repository.entity.Book;
 import com.miu.bookhub.inventory.repository.entity.BookItem;
 import com.miu.bookhub.inventory.repository.entity.Condition;
 import com.miu.bookhub.inventory.service.integration.BookSearchIntegrationService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,7 @@ public class InventoryServiceImpl implements InventoryService {
     private final int DEFAULT_BOOK_SEARCH_SIZE = 50;
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
     private final BookItemRepository bookItemRepository;
     private final RegistrationService registrationService;
     private final BookSearchIntegrationService bookSearchIntegrationService;
@@ -44,17 +48,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Optional<Book> remoteSearchBookByIsbn(String isbn) {
-
-        Optional<Book> book = bookSearchIntegrationService.searchBookByIsbn(isbn);
-
-        try { // this axillary block should not affect the main process; hence the try-catch
-
-            if (book.isPresent() && bookRepository.findByIsbn(isbn).isEmpty()) {
-                bookRepository.save(book.get());
-            }
-        } catch (Exception ignore) {}
-
-        return book;
+        return bookSearchIntegrationService.searchBookByIsbn(isbn);
     }
 
     @Override
@@ -81,8 +75,22 @@ public class InventoryServiceImpl implements InventoryService {
         User seller = registrationService.findUserById(sellerId)
                 .orElseThrow(() -> new InventoryExceptionService(messages.getMessage("user.id.invalid")));
 
-        Optional<Book> book = findBookByIsbn(isbn) // If not found from local cache, query from remote external store
-                .or(() -> remoteSearchBookByIsbn(isbn));
+        Optional<Book> book = findBookByIsbn(isbn);
+
+        if (book.isEmpty()) { // If not found from local cache, query from remote external store
+
+            book = remoteSearchBookByIsbn(isbn);
+            if (book.isPresent()) {
+
+                Book bk = book.get();
+                if (bk.getAuthors() != null && !bk.getAuthors().isEmpty()) {
+                    List<Author> authors = IterableUtils.toList(authorRepository.saveAll(bk.getAuthors()));
+                    bk.setAuthors(authors);
+                }
+
+                bookRepository.save(bk);
+            }
+        }
 
         if (book.isEmpty()) throw new InventoryExceptionService(messages.getMessage("book.isbn.invalid"));
 
