@@ -12,19 +12,17 @@ import java.util.stream.Collectors;
 
 public class FuncUtils {
 
-    TriFunction<List<Shipping>, Integer, Integer, List<Category>> x() {
+    TriFunction<List<Shipping>, Integer, Integer, List<Category>> getImportantCategories() {
 
-        return (companies, year, threshold) ->
-
-                companies.stream()
-                        .flatMap(company -> company.getOrders().stream())
-                        .filter(order -> order.isPremium() && order.getScheduledDeliveryTime().getYear() == year)
-                        .flatMap(order -> order.getItems().stream())
-                        .collect(Collectors.groupingBy(OrderItem::getCategory, Collectors.counting()))
-                        .entrySet().stream()
-                        .filter(e -> e.getValue() >= threshold)
-                        .map(Map.Entry::getKey)
-                        .collect(Collectors.toList());
+        return (companies, year, threshold) -> companies.stream()
+                .flatMap(company -> company.getOrders().stream())
+                .filter(order -> order.isPremium() && order.getScheduledDeliveryTime().getYear() == year)
+                .flatMap(order -> order.getItems().stream())
+                .collect(Collectors.groupingBy(OrderItem::getCategory, Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() >= threshold)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     List<Shipping> getFastShippers(List<Shipping> companies, int year, int k) {
