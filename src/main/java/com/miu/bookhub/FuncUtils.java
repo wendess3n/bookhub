@@ -7,9 +7,25 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FuncUtils {
+
+    TriFunction<List<Shipping>, Integer, Integer, List<Category>> x() {
+
+        return (companies, year, threshold) ->
+
+                companies.stream()
+                        .flatMap(company -> company.getOrders().stream())
+                        .filter(order -> order.isPremium() && order.getScheduledDeliveryTime().getYear() == year)
+                        .flatMap(order -> order.getItems().stream())
+                        .collect(Collectors.groupingBy(OrderItem::getCategory, Collectors.counting()))
+                        .entrySet().stream()
+                        .filter(e -> e.getValue() >= threshold)
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toList());
+    }
 
     List<Shipping> getFastShippers(List<Shipping> companies, int year, int k) {
 
@@ -25,7 +41,7 @@ public class FuncUtils {
 
         return shipping.getOrders().stream()
                 .filter(order -> order.getScheduledPickupTime().getYear() == year)
-                .mapToLong(order ->  getTimeDiff(order.getScheduledDeliveryTime(), order.getActualDeliveryTime())
+                .mapToLong(order -> getTimeDiff(order.getScheduledDeliveryTime(), order.getActualDeliveryTime())
                         + getTimeDiff(order.getScheduledPickupTime(), order.getActualPickupTime()))
                 .average()
                 .getAsDouble();
