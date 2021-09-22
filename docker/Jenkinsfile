@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM 'H/15 * * * *'
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+         stage('Build') {
+            steps {
+                sh './gradlew build'
+                sh 'cp build/libs/book-hub.jar docker/'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh './gradlew docker'
+            }
+        }
+        stage('Run image') {
+            steps {
+                sh './gradlew dockerRun'
+            }
+        }
+    }
+}
