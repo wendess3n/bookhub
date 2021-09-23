@@ -1,16 +1,14 @@
 package com.miu.bookhub.inventory.repository.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 public class Author {
 
@@ -27,4 +25,6 @@ public class Author {
 
     @Column(name = "photo_uri")
     private String photoUri;
+
+    private Gender gender;
 }

@@ -1,12 +1,17 @@
 package com.miu.bookhub.inventory.repository.entity;
 
 import com.miu.bookhub.account.repository.entity.User;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Data
+@Getter
+@Setter
 public class BookRating {
 
     @Id
@@ -16,6 +21,13 @@ public class BookRating {
     @ManyToOne
     @JoinColumn(name = "rater_id")
     private User rater;
+
+    @JoinColumn(name = "book_id")
+    @ManyToOne
+    private Book book;
     private Integer score;
     private String comment;
+
+    @Column(name = "rating_date")
+    private LocalDate ratingDate;
 }

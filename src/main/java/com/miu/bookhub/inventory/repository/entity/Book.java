@@ -1,9 +1,7 @@
 package com.miu.bookhub.inventory.repository.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.miu.bookhub.order.repository.entity.WishList;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +10,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class Book {
 
@@ -50,4 +49,13 @@ public class Book {
     )
     @Column(nullable = false)
     private List<Author> authors;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookRating> ratings;
+
+    @OneToMany(mappedBy = "wish_list_id")
+    private List<WishList> wishLists;
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 }

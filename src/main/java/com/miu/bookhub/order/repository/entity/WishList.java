@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Builder
 @NoArgsConstructor
@@ -28,4 +29,7 @@ public class WishList {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
+    @Column(name = "wished_date")
+    private LocalDate wishedDate;
 }
