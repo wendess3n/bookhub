@@ -24,7 +24,7 @@ public interface InventoryServiceUtils {
             (book, year) -> Optional.ofNullable(book)
                     .flatMap(bk -> Optional.ofNullable(bk.getRatings()))
                     .orElse(List.of()).stream()
-                    .mapToInt(BookRating::getScore)
+                    .mapToInt(Rating::getScore)
                     .average()
                     .orElse(0);
     /**

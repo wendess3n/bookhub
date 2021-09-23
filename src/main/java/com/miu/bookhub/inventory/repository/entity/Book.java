@@ -51,7 +51,7 @@ public class Book {
     private List<Author> authors;
 
     @OneToMany(mappedBy = "book")
-    private List<BookRating> ratings;
+    private List<Rating> ratings;
 
     @OneToMany(mappedBy = "wish_list_id")
     private List<WishList> wishLists;

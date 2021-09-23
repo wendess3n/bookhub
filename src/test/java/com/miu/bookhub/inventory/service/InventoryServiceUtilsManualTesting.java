@@ -18,9 +18,10 @@ public class InventoryServiceUtilsManualTesting {
 
             while (true) {
 
-                System.out.println("Choose 1 to find the most purchased books by year \n" +
-                        "Choose 2 to find female authors of top rated books by year \n" +
-                        "Choose 3 to find most wished but least bought books by year\n");
+                System.out.printf(
+                        "Choose 1 to find the most purchased books by year%n" +
+                        "Choose 2 to find female authors of top rated books by year%n" +
+                        "Choose 3 to find most wished but least bought books by year%n");
 
                 int func = reader.nextInt();
 

@@ -115,17 +115,17 @@ public class InventoryInMemoryDB {
                 .genre(Genre.FANTASY)
                 .weight(0.69)
                 .ratings(List.of(
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer1)
                                 .ratingDate(LocalDate.of(2021, 3, 3))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(4)
                                 .rater(customer2)
                                 .ratingDate(LocalDate.of(2021, 4, 11))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer3)
                                 .ratingDate(LocalDate.of(2021, 1, 1))
@@ -153,17 +153,17 @@ public class InventoryInMemoryDB {
                 .genre(Genre.MEMOIR)
                 .weight(1.34)
                 .ratings(List.of(
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(5)
                                 .rater(customer1)
                                 .ratingDate(LocalDate.of(2021, 5, 3))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(5)
                                 .rater(customer2)
                                 .ratingDate(LocalDate.of(2021, 2, 11))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(4)
                                 .rater(customer3)
                                 .ratingDate(LocalDate.of(2021, 1, 1))
@@ -190,12 +190,12 @@ public class InventoryInMemoryDB {
                 .genre(Genre.SELF_HELP)
                 .weight(0.7)
                 .ratings(List.of(
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(1)
                                 .rater(customer1)
                                 .ratingDate(LocalDate.of(2021, 3, 3))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(4)
                                 .rater(customer2)
                                 .ratingDate(LocalDate.of(2021, 4, 11))
@@ -241,17 +241,17 @@ public class InventoryInMemoryDB {
                 .genre(Genre.LITERARY_FICTION)
                 .weight(0.65)
                 .ratings(List.of(
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(4)
                                 .rater(customer1)
                                 .ratingDate(LocalDate.of(2020, 5, 3))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer2)
                                 .ratingDate(LocalDate.of(2021, 4, 14))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer3)
                                 .ratingDate(LocalDate.of(2021, 7, 3))
@@ -283,17 +283,17 @@ public class InventoryInMemoryDB {
                 .weight(0.51)
                 .pageCount(160)
                 .ratings(List.of(
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(2)
                                 .rater(customer1)
                                 .ratingDate(LocalDate.of(2021, 4, 3))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer2)
                                 .ratingDate(LocalDate.of(2021, 6, 11))
                                 .build(),
-                        BookRating.builder()
+                        Rating.builder()
                                 .score(3)
                                 .rater(customer3)
                                 .ratingDate(LocalDate.of(2021, 1, 19))
